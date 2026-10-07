@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudySpace 🌸</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Trebuchet MS", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #ffe5f1, #eee4ff, #fff4c7);
+    min-height: 100vh;
+    color: #3d3152;
+}
+
+header {
+    background: rgba(255,255,255,0.75);
+    padding: 25px;
+    text-align: center;
+    border-bottom: 3px solid #ffffff;
+}
+
+header h1 {
+    font-size: 38px;
+    color: #a94c91;
+}
+
+header p {
+    margin-top: 8px;
+    font-size: 17px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 18px;
+}
+
+nav button {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 20px;
+    background: white;
+    color: #704b82;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(100,70,120,0.12);
+    transition: 0.2s;
+}
+
+nav button:hover {
+    transform: translateY(-3px);
+    background: #f8d9ed;
+}
+
+main {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.card {
+    background: rgba(255,255,255,0.85);
+    border-radius: 25px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(90,60,110,0.12);
+}
+
+.card h2 {
+    color: #a94c91;
+    margin-bottom: 15px;
+}
+
+.welcome {
+    text-align: center;
+    padding: 45px 25px;
+}
+
+.welcome h2 {
+    font-size: 30px;
+}
+
+.welcome p {
+    margin: 15px 0;
+    font-size: 18px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0 12px;
+    border: 2px solid #ead5f0;
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.action {
+    border: none;
+    border-radius: 15px;
+    padding: 12px 20px;
+    background: #d98bc5;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.action:hover {
+    background: #bd6aaa;
+}
+
+.result {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 15px;
+    background: #fff1a8;
+    font-weight: bold;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff7fb;
+    padding: 12px;
+    border-radius: 12px;
+    margin: 8px 0;
+}
+
+.task input {
+    width: auto;
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    border: 2px solid #eadcf0;
+    text-align: center;
+}
+
+th {
+    background: #f5d6ed;
+}
+
+.quiz-option {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: #eee4ff;
+    cursor: pointer;
+    text-align: left;
+}
+
+.quiz-option:hover {
+    background: #dfcef8;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #765f80;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 30px;
+    }
+
+    nav button {
+        font-size: 13px;
+        padding: 10px 13px;
+    }
+
+    main {
+        padding: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌸 StudySpace 🌈</h1>
+    <p>Ton espace pour apprendre, t'organiser et réussir ✨</p>
+</header>
+
+<nav>
+    <button onclick="showPage('accueil')">🏠 Accueil</button>
+    <button onclick="showPage('moyenne')">🧮 Moyenne</button>
+    <button onclick="showPage('revision')">📚 Révisions</button>
+    <button onclick="showPage('emploi')">🗓️ Emploi du temps</button>
+    <button onclick="showPage('taches')">✅ Tâches</button>
+    <button onclick="showPage('quiz')">🧠 Quiz</button>
+    <button onclick="showPage('calendrier')">📅 Calendrier</button>
+</nav>
+
+<main>
+
+<section id="accueil" class="page active">
+    <div class="card welcome">
+        <h2>Bienvenue sur StudySpace 💕</h2>
+        <p>Un petit espace créé pour t'aider à mieux organiser tes études.</p>
+        <p>📚 Travaille • 🧠 Révise • ✅ Organise-toi • 🌸 Progresse</p>
+        <p>🌸 by MSK 🌸</p>
+    </div>
+</section>
+
+<section id="moyenne" class="page">
+    <div class="card">
+        <h2>🧮 Calculateur de moyenne</h2>
+
+        <div id="matieres">
+
+            <div class="matiere-ligne">
+                <input type="text" placeholder="Matière">
+                <input type="number" placeholder="Devoir 1" min="0" max="20">
+                <input type="number" placeholder="Devoir 2" min="0" max="20">
+                <input type="number" placeholder="Composition" min="0" max="20">
+                <input type="number" placeholder="Coefficient" min="1" value="1">
+            </div>
+
+        </div>
+
+        <button class="action" onclick="ajouterMatiere()">
+            ➕ Ajouter une matière
+        </button>
+
+        <button class="action" onclick="calculerMoyenne()">
+            ✨ Calculer ma moyenne
+        </button>
+
+        <div id="resultatMoyenne" class="result"></div>
+    </div>
+</section>
+
+<section id="revision" class="page">
+    <div class="card">
+        <h2>📚 Mes révisions</h2>
+
+        <p>Ajoute les matières que tu dois réviser et coche-les quand tu as terminé ✨</p>
+
+        <div class="revision-form">
+            <input
+                type="text"
+                id="matiere"
+                placeholder="Ex : Mathématiques"
+            >
+
+            <input
+                type="text"
+                id="chapitre"
+                placeholder="Ex : Équations"
+            >
+
+            <button class="action" onclick="ajouterRevision()">
+                ➕ Ajouter
+            </button>
+        </div>
+
+        <div id="listeRevision"></div>
+    </div>
+</section>
+
+<section id="emploi" class="page">
+    <div class="card">
+        <h2>🗓️ Emploi du temps</h2>
+
+        <table>
+            <tr>
+                <th>Jour</th>
+                <th>Matin</th>
+                <th>Après-midi</th>
+            </tr>
+            <tr>
+                <td>Lundi</td>
+                <td>📐 Maths</td>
+                <td>📚 Français</td>
+            </tr>
+            <tr>
+                <td>Mardi</td>
+                <td>🧪 Sciences</td>
+                <td>🌍 Histoire</td>
+            </tr>
+            <tr>
+                <td>Mercredi</td>
+                <td>💻 Informatique</td>
+                <td>📖 Anglais</td>
+            </tr>
+            <tr>
+                <td>Jeudi</td>
+                <td>📐 Maths</td>
+                <td>🧪 Sciences</td>
+            </tr>
+            <tr>
+                <td>Vendredi</td>
+                <td>📚 Français</td>
+                <td>🌍 Géographie</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section id="taches" class="page">
+    <div class="card">
+        <h2>✅ Mes tâches</h2>
+
+        <p>Organise tes devoirs et tes petites missions scolaires ✨</p>
+
+        <input
+            type="text"
+            id="nouvelleTache"
+            placeholder="Ex : Faire les exercices de maths"
+        >
+
+        <button class="action" onclick="ajouterTache()">
+            ➕ Ajouter une tâche
+        </button>
+
+        <div id="listeTaches"></div>
+    </div>
+</section>
+
+<section id="quiz" class="page">
+    <div class="card">
+        <h2>🧠 Quiz StudySpace</h2>
+
+        <p>Configure ton quiz selon ton parcours scolaire ✨</p>
+
+        <label>🎓 Classe</label>
+
+        <select
+            id="classeQuiz"
+            onchange="mettreAJourEtablissement()"
+        >
+            <option value="">-- Choisir ta classe --</option>
+            <option value="6e">6e</option>
+            <option value="5e">5e</option>
+            <option value="4e">4e</option>
+            <option value="3e">3e</option>
+            <option value="2nde">2nde</option>
+            <option value="1ere">1ère</option>
+            <option value="terminale">Terminale</option>
+        </select>
+
+        <div id="choixEtablissement" style="display:none;">
+
+            <label>🏫 Type d'établissement</label>
+
+            <select
+                id="typeEtablissement"
+                onchange="mettreAJourParcours()"
+            >
+                <option value="">-- Choisir --</option>
+                <option value="public">Public</option>
+                <option value="prive">Privé</option>
+                <option value="priveBilingue">Privé bilingue</option>
+                <option value="francoArabe">Franco-arabe</option>
+            </select>
+
+        </div>
+
+        <div id="choixParcours" style="display:none;">
+
+            <label>🔬 Bloc / parcours</label>
+
+            <select
+                id="parcoursQuiz"
+                onchange="mettreAJourMatieres()"
+            >
+                <option value="">-- Choisir --</option>
+            </select>
+
+        </div>
+
+        <label>📚 Matière</label>
+
+        <select id="matiereQuiz">
+            <option value="">
+                -- Choisir d'abord ton parcours --
+            </option>
+        </select>
+
+        <button class="action" onclick="ajouterMatiereQuiz()">
+            ➕ Ajouter une matière
+        </button>
+
+        <label>🎯 Niveau</label>
+
+        <select id="niveauQuiz">
+            <option value="">-- Choisir un niveau --</option>
+            <option value="facile">🟢 Facile</option>
+            <option value="moyen">🟡 Moyen</option>
+            <option value="difficile">🔴 Difficile</option>
+        </select>
+
+        <button class="action" onclick="commencerQuiz()">
+            🚀 Commencer le quiz
+        </button>
+
+        <div id="messageQuiz" class="result"></div>
+
+    </div>
+</section>
+
+<section id="pageQuiz" class="page">
+
+    <div class="card">
+
+        <h2>🧠 Mon Quiz</h2>
+
+        <div id="zoneQuestionQuiz"></div>
+
+    </div>
+
+</section>
+
+<section id="calendrier" class="page">
+    <div class="card">
+        <h2>📅 Calendrier</h2>
+
+        <p>Choisis une date importante :</p>
+
+        <input type="date" id="date">
+
+        <input
+            type="text"
+            id="evenement"
+            placeholder="Ex : Contrôle de maths"
+        >
+
+        <button class="action" onclick="ajouterEvenement()">
+            Ajouter 📌
+        </button>
+
+        <div id="listeEvenements"></div>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    🌸 StudySpace — Créé par une élève pour des élèves
+</footer>
+
+<script>
+
+function showPage(pageId) {
+
+    const pages = document.querySelectorAll(".page");
+
+    pages.forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+// ===============================
+// 🧮 CALCULATEUR DE MOYENNE
+// ===============================
+
+function ajouterMatiere() {
+
+    let ligne = document.createElement("div");
+
+    ligne.className = "matiere-ligne";
+
+    ligne.innerHTML = `
+        <input type="text" placeholder="Matière">
+        <input type="number" placeholder="Devoir 1" min="0" max="20">
+        <input type="number" placeholder="Devoir 2" min="0" max="20">
+        <input type="number" placeholder="Composition" min="0" max="20">
+        <input type="number" placeholder="Coefficient" min="1" value="1">
+    `;
+
+    document.getElementById("matieres").appendChild(ligne);
+}
+
+
+function calculerMoyenne() {
+
+    let lignes = document.querySelectorAll(".matiere-ligne");
+
+    let totalPoints = 0;
+    let totalCoefficients = 0;
+
+    lignes.forEach(ligne => {
+
+        let inputs = ligne.querySelectorAll("input");
+
+        let devoir1 = parseFloat(inputs[1].value);
+        let devoir2 = parseFloat(inputs[2].value);
+        let composition = parseFloat(inputs[3].value);
+        let coefficient = parseFloat(inputs[4].value);
+
+        if (
+            !isNaN(devoir1) &&
+            !isNaN(devoir2) &&
+            !isNaN(composition) &&
+            !isNaN(coefficient)
+        ) {
+
+            let moyenneDevoirs =
+                (devoir1 + devoir2) / 2;
+
+            let moyenneMatiere =
+                (moyenneDevoirs + composition) / 2;
+
+            totalPoints +=
+                moyenneMatiere * coefficient;
+
+            totalCoefficients += coefficient;
+        }
+    });
+
+    if (totalCoefficients === 0) {
+
+        document.getElementById("resultatMoyenne").innerHTML =
+            "⚠️ Remplis au moins une matière.";
+
+        return;
+    }
+
+    let moyenneGenerale =
+        totalPoints / totalCoefficients;
+
+    document.getElementById("resultatMoyenne").innerHTML =
+        "🌸 Ta moyenne générale est : " +
+        moyenneGenerale.toFixed(2) +
+        " / 20";
+}
+
+
+// ===============================
+// 📚 RÉVISIONS
+// ===============================
+
+function ajouterRevision() {
+
+    let matiere =
+        document.getElementById("matiere").value;
+
+    let chapitre =
+        document.getElementById("chapitre").value;
+
+    if (
+        matiere.trim() === "" ||
+        chapitre.trim() === ""
+    ) {
+
+        alert(
+            "⚠️ Remplis la matière et le chapitre !"
+        );
+
+        return;
+    }
+
+    let element =
+        document.createElement("div");
+
+    element.className = "task";
+
+    element.innerHTML = `
+        <input type="checkbox">
+        <span>
+            <strong>${matiere}</strong> — ${chapitre}
+        </span>
+    `;
+
+    document
+        .getElementById("listeRevision")
+        .appendChild(element);
+
+    document.getElementById("matiere").value = "";
+    document.getElementById("chapitre").value = "";
+}
+
+
+// ===============================
+// ✅ TÂCHES
+// ===============================
+
+function ajouterTache() {
+
+    let tache =
+        document.getElementById("nouvelleTache").value;
+
+    if (tache.trim() === "") {
+
+        alert("⚠️ Écris une tâche !");
+
+        return;
+    }
+
+    let element =
+        document.createElement("div");
+
+    element.className = "task";
+
+    element.innerHTML = `
+        <input
+            type="checkbox"
+            onchange="terminerTache(this)"
+        >
+
+        <span>${tache}</span>
+
+        <button onclick="supprimerTache(this)">
+            🗑️
+        </button>
+    `;
+
+    document
+        .getElementById("listeTaches")
+        .appendChild(element);
+
+    document.getElementById("nouvelleTache").value = "";
+}
+
+
+function terminerTache(checkbox) {
+
+    let texte =
+        checkbox.nextElementSibling;
+
+    if (checkbox.checked) {
+
+        texte.style.textDecoration =
+            "line-through";
+
+        texte.style.opacity = "0.5";
+
+    } else {
+
+        texte.style.textDecoration =
+            "none";
+
+        texte.style.opacity = "1";
+    }
+}
+
+
+function supprimerTache(bouton) {
+
+    bouton.parentElement.remove();
+}
+
+
+// ===============================
+// 📅 CALENDRIER
+// ===============================
+
+function ajouterEvenement() {
+
+    let date =
+        document.getElementById("date").value;
+
+    let evenement =
+        document.getElementById("evenement").value;
+
+    if (
+        date === "" ||
+        evenement.trim() === ""
+    ) {
+        return;
+    }
+
+    let element =
+        document.createElement("div");
+
+    element.className = "task";
+
+    element.innerHTML =
+        "📌 " + date + " — " + evenement;
+
+    document
+        .getElementById("listeEvenements")
+        .appendChild(element);
+
+    document.getElementById("date").value = "";
+    document.getElementById("evenement").value = "";
+}
+
+
+// ===============================
+// 🏫 MATIÈRES DU QUIZ
+// ===============================
+
+const matieresBase = {
+
+    "6e": [
+        "Français",
+        "Mathématiques",
+        "Anglais",
+        "Histoire",
+        "Géographie",
+        "SVT",
+        "Éducation civique"
+    ],
+
+    "5e": [
+        "Français",
+        "Mathématiques",
+        "Anglais",
+        "Histoire",
+        "Géographie",
+        "SVT",
+        "Éducation civique"
+    ],
+
+    "4e": [
+        "Français",
+        "Mathématiques",
+        "Anglais",
+        "Histoire",
+        "Géographie",
+        "SVT",
+        "Éducation civique"
+    ],
+
+    "3e": [
+        "Français",
+        "Mathématiques",
+        "Anglais",
+        "Histoire",
+        "Géographie",
+        "SVT",
+        "Éducation civique"
+    ],
+
+    "2nde": [
+        "Français",
+        "Mathématiques",
+        "Anglais",
+        "Histoire-Géographie",
+        "SVT",
+        "Physique-Chimie"
+    ],
+
+    "1ere": [
+        "Français",
+        "Mathématiques",
+        "Anglais",
+        "Histoire-Géographie",
+        "SVT",
+        "Physique-Chimie"
+    ],
+
+    "terminale": [
+        "Français",
+        "Mathématiques",
+        "Anglais",
+        "Histoire-Géographie",
+        "SVT",
+        "Physique-Chimie"
+    ]
+};
+
+
+function mettreAJourEtablissement() {
+
+    let classe =
+        document.getElementById("classeQuiz").value;
+
+    let choix =
+        document.getElementById("choixEtablissement");
+
+    if (classe !== "") {
+        choix.style.display = "block";
+    } else {
+        choix.style.display = "none";
+    }
+
+    document.getElementById("choixParcours").style.display =
+        "none";
+
+    document.getElementById("matiereQuiz").innerHTML =
+        '<option value="">-- Choisir d\'abord ton parcours --</option>';
+}
+
+
+function mettreAJourParcours() {
+
+    let type =
+        document.getElementById("typeEtablissement").value;
+
+    let choixParcours =
+        document.getElementById("choixParcours");
+
+    let parcours =
+        document.getElementById("parcoursQuiz");
+
+    parcours.innerHTML =
+        '<option value="">-- Choisir --</option>';
+
+    if (type === "") {
+
+        choixParcours.style.display =
+            "none";
+
+        return;
+    }
+
+    choixParcours.style.display =
+        "block";
+
+    parcours.innerHTML += `
+        <option value="classique">
+            🏫 Parcours classique
+        </option>
+
+        <option value="bst">
+            🔬 Bloc scientifique et technologique
+        </option>
+
+        <option value="personnalise">
+            ✏️ Parcours personnalisé
+        </option>
+    `;
+}
+
+
+function mettreAJourMatieres() {
+
+    let classe =
+        document.getElementById("classeQuiz").value;
+
+    let parcours =
+        document.getElementById("parcoursQuiz").value;
+
+    let selectMatiere =
+        document.getElementById("matiereQuiz");
+
+    selectMatiere.innerHTML =
+        '<option value="">-- Choisir une matière --</option>';
+
+    if (!matieresBase[classe]) {
+        return;
+    }
+
+    let matieres =
+        [...matieresBase[classe]];
+
+    if (parcours === "bst") {
+
+        matieres.push("Technologie");
+        matieres.push("Économie familiale");
+    }
+
+    matieres.forEach(function(matiere) {
+
+        let option =
+            document.createElement("option");
+
+        option.value = matiere;
+        option.textContent = matiere;
+
+        selectMatiere.appendChild(option);
+    });
+}
+
+
+function ajouterMatiereQuiz() {
+
+    let nouvelleMatiere =
+        prompt(
+            "📚 Écris le nom de la matière à ajouter :"
+        );
+
+    if (
+        nouvelleMatiere &&
+        nouvelleMatiere.trim() !== ""
+    ) {
+
+        let selectMatiere =
+            document.getElementById("matiereQuiz");
+
+        let option =
+            document.createElement("option");
+
+        option.value =
+            nouvelleMatiere.trim();
+
+        option.textContent =
+            "✏️ " + nouvelleMatiere.trim();
+
+        selectMatiere.appendChild(option);
+
+        selectMatiere.value =
+            nouvelleMatiere.trim();
+    }
+}
+
+
+// ===============================
+// 🧠 MOTEUR DU QUIZ
+// ===============================
+
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = 0;
+
+
+// ===============================
+// 📚 BANQUE DE QUESTIONS
+// ===============================
+
+const banqueQuestions = {
+
+    "4e": {
+
+        "Mathématiques": [
+            {
+                question: "Résous : 3x + 4 = 19",
+                options: ["3", "5", "7", "9"],
+                reponse: 1,
+                niveau: "facile"
+            },
+            {
+                question: "Calcule : 2/3 + 1/6",
+                options: ["3/9", "4/6", "5/6", "1"],
+                reponse: 2,
+                niveau: "moyen"
+            },
+            {
+                question: "Un triangle a une base de 8 cm et une hauteur de 5 cm. Quelle est son aire ?",
+                options: [
+                    "13 cm²",
+                    "20 cm²",
+                    "40 cm²",
+                    "16 cm²"
+                ],
+                reponse: 1,
+                niveau: "difficile"
+            }
+        ],
+
+        "Français": [
+            {
+                question: "Dans « Awa lit un livre », quel est le COD ?",
+                options: [
+                    "Awa",
+                    "lit",
+                    "un livre",
+                    "aucun"
+                ],
+                reponse: 2,
+                niveau: "facile"
+            },
+            {
+                question: "Dans « Il parle rapidement », quelle est la nature de « rapidement » ?",
+                options: [
+                    "Nom",
+                    "Adjectif",
+                    "Adverbe",
+                    "Verbe"
+                ],
+                reponse: 2,
+                niveau: "moyen"
+            },
+            {
+                question: "Quelle phrase est à la voix passive ?",
+                options: [
+                    "Le professeur explique la leçon.",
+                    "La leçon est expliquée par le professeur.",
+                    "Le professeur explique bien.",
+                    "Les élèves étudient."
+                ],
+                reponse: 1,
+                niveau: "difficile"
+            }
+        ],
+
+        "Anglais": [
+            {
+                question: "What is the past tense of « go » ?",
+                options: [
+                    "goed",
+                    "went",
+                    "gone",
+                    "going"
+                ],
+                reponse: 1,
+                niveau: "facile"
+            },
+            {
+                question: "Choose the correct answer: She ___ playing football.",
+                options: [
+                    "am",
+                    "are",
+                    "is",
+                    "be"
+                ],
+                reponse: 2,
+                niveau: "moyen"
+            },
+            {
+                question: "What does « I have two brothers » mean?",
+                options: [
+                    "J'ai deux sœurs.",
+                    "J'ai deux frères.",
+                    "J'ai trois frères.",
+                    "Je suis un frère."
+                ],
+                reponse: 1,
+                niveau: "difficile"
+            }
+        ],
+
+        "Histoire": [
+            {
+                question: "La conférence de Berlin sur le partage de l'Afrique a eu lieu en…",
+                options: [
+                    "1789",
+                    "1848",
+                    "1884-1885",
+                    "1914"
+                ],
+                reponse: 2,
+                niveau: "facile"
+            },
+            {
+                question: "En quelle année l'esclavage a-t-il été définitivement aboli dans les colonies françaises ?",
+                options: [
+                    "1789",
+                    "1848",
+                    "1900",
+                    "1960"
+                ],
+                reponse: 1,
+                niveau: "moyen"
+            },
+            {
+                question: "Le Sénégal accède à l'indépendance en…",
+                options: [
+                    "1945",
+                    "1958",
+                    "1960",
+                    "1975"
+                ],
+                reponse: 2,
+                niveau: "difficile"
+            }
+        ],
+
+        "Géographie": [
+            {
+                question: "Le Sahel est situé entre…",
+                options: [
+                    "Le Sahara et les régions plus humides du sud",
+                    "L'océan et l'Europe",
+                    "L'Asie et l'Afrique",
+                    "Les pôles"
+                ],
+                reponse: 0,
+                niveau: "facile"
+            },
+            {
+                question: "Quelle est la capitale du Sénégal ?",
+                options: [
+                    "Thiès",
+                    "Saint-Louis",
+                    "Dakar",
+                    "Ziguinchor"
+                ],
+                reponse: 2,
+                niveau: "moyen"
+            },
+            {
+                question: "Quel océan borde le Sénégal à l'ouest ?",
+                options: [
+                    "Océan Indien",
+                    "Océan Atlantique",
+                    "Océan Pacifique",
+                    "Océan Arctique"
+                ],
+                reponse: 1,
+                niveau: "difficile"
+            }
+        ],
+
+        "SVT": [
+            {
+                question: "Quel organe permet principalement les échanges gazeux chez l'être humain ?",
+                options: [
+                    "Le cœur",
+                    "Les poumons",
+                    "L'estomac",
+                    "Le foie"
+                ],
+                reponse: 1,
+                niveau: "facile"
+            },
+            {
+                question: "Quel élément du sang transporte principalement l'oxygène ?",
+                options: [
+                    "Les globules rouges",
+                    "Les plaquettes",
+                    "Le plasma",
+                    "Les globules blancs"
+                ],
+                reponse: 0,
+                niveau: "moyen"
+            },
+            {
+                question: "La photosynthèse nécessite notamment de la lumière, de l'eau et…",
+                options: [
+                    "Du dioxyde de carbone",
+                    "Du sel",
+                    "Du fer",
+                    "De l'azote pur"
+                ],
+                reponse: 0,
+                niveau: "difficile"
+            }
+        ],
+
+        "Éducation civique": [
+            {
+                question: "Le vote est principalement…",
+                options: [
+                    "Une activité sportive",
+                    "Un droit et un acte citoyen",
+                    "Une obligation scolaire",
+                    "Un loisir"
+                ],
+                reponse: 1,
+                niveau: "facile"
+            },
+            {
+                question: "La Constitution sert notamment à…",
+                options: [
+                    "Organiser les institutions de l'État",
+                    "Fixer le prix du pain",
+                    "Choisir les uniformes scolaires",
+                    "Déterminer la météo"
+                ],
+                reponse: 0,
+                niveau: "moyen"
+            },
+            {
+                question: "L'égalité devant la loi signifie que…",
+                options: [
+                    "Certaines personnes sont au-dessus des lois",
+                    "Tous sont soumis aux mêmes règles de droit",
+                    "Seuls les adultes ont des droits",
+                    "Les lois changent selon les personnes"
+                ],
+                reponse: 1,
+                niveau: "difficile"
+            }
+        ],
+
+        "Technologie": [
+            {
+                question: "Quel appareil permet de mesurer une température ?",
+                options: [
+                    "Une balance",
+                    "Un thermomètre",
+                    "Une règle",
+                    "Un voltmètre"
+                ],
+                reponse: 1,
+                niveau: "facile"
+            },
+            {
+                question: "Quel élément transforme l'énergie électrique en lumière dans une lampe ?",
+                options: [
+                    "La source lumineuse",
+                    "Le téléphone",
+                    "Le câble USB",
+                    "Le clavier"
+                ],
+                reponse: 0,
+                niveau: "moyen"
+            },
+            {
+                question: "Dans un circuit électrique simple, quel élément permet généralement d'ouvrir ou fermer le circuit ?",
+                options: [
+                    "L'interrupteur",
+                    "La pile",
+                    "L'ampoule",
+                    "Le fil uniquement"
+                ],
+                reponse: 0,
+                niveau: "difficile"
+            }
+        ],
+
+        "Économie familiale": [
+            {
+                question: "Un repas équilibré doit être…",
+                options: [
+                    "Très sucré uniquement",
+                    "Varié et adapté aux besoins du corps",
+                    "Composé seulement de viande",
+                    "Composé seulement de boissons"
+                ],
+                reponse: 1,
+                niveau: "facile"
+            },
+            {
+                question: "Pourquoi faut-il se laver les mains avant de préparer un repas ?",
+                options: [
+                    "Pour décorer les mains",
+                    "Pour réduire les microbes et les contaminations",
+                    "Pour avoir les mains froides",
+                    "Pour gagner du temps"
+                ],
+                reponse: 1,
+                niveau: "moyen"
+            },
+            {
+                question: "Quel comportement favorise une bonne conservation des aliments ?",
+                options: [
+                    "Laisser tous les aliments au soleil",
+                    "Respecter les conditions de conservation",
+                    "Mélanger aliments crus et cuits",
+                    "Ignorer les dates de péremption"
+                ],
+                reponse: 1,
+                niveau: "difficile"
+            }
+        ]
+
+    }
+};
+
+
+// ===============================
+// 🚀 COMMENCER LE QUIZ
+// ===============================
+
+function commencerQuiz() {
+
+    let classe =
+        document.getElementById("classeQuiz").value;
+
+    let matiere =
+        document.getElementById("matiereQuiz").value;
+
+    let niveau =
+        document.getElementById("niveauQuiz").value;
+
+    if (
+        classe === "" ||
+        matiere === "" ||
+        niveau === ""
+    ) {
+
+        document.getElementById("messageQuiz").innerHTML =
+            "⚠️ Choisis ta classe, ta matière et ton niveau.";
+
+        return;
+    }
+
+    let questionsDisponibles =
+        banqueQuestions[classe] &&
+        banqueQuestions[classe][matiere]
+            ? banqueQuestions[classe][matiere]
+            : [];
+
+    if (questionsDisponibles.length === 0) {
+
+        document.getElementById("messageQuiz").innerHTML =
+            "📚 Les questions de cette matière sont encore en préparation.";
+
+        return;
+    }
+
+    let questionsNiveau =
+        questionsDisponibles.filter(
+            question => question.niveau === niveau
+        );
+
+    if (questionsNiveau.length === 0) {
+
+        questionsNiveau =
+            questionsDisponibles;
+    }
+
+    quizQuestions =
+        [...questionsNiveau]
+        .sort(() => Math.random() - 0.5);
+
+    quizIndex = 0;
+    quizScore = 0;
+
+    document.getElementById("messageQuiz").innerHTML = "";
+
+    showPage("pageQuiz");
+
+    afficherQuestionQuiz();
+}
+
+
+// ===============================
+// 📖 AFFICHER UNE QUESTION
+// ===============================
+
+function afficherQuestionQuiz() {
+
+    let zone =
+        document.getElementById("zoneQuestionQuiz");
+
+    if (quizIndex >= quizQuestions.length) {
+
+        terminerQuiz();
+
+        return;
+    }
+
+    let question =
+        quizQuestions[quizIndex];
+
+    let html = `
+        <div class="card">
+
+            <h3>
+                Question ${quizIndex + 1}
+                /
+                ${quizQuestions.length}
+            </h3>
+
+            <p>
+                <strong>
+                    ${question.question}
+                </strong>
+            </p>
+    `;
+
+    question.options.forEach(
+        (option, index) => {
+
+            html += `
+                <button
+                    class="action reponseQuiz"
+                    onclick="repondreQuiz(${index})"
+                >
+                    ${option}
+                </button>
+            `;
+        }
+    );
+
+    html += `
+            <div id="feedbackQuiz" class="result"></div>
+
+        </div>
+    `;
+
+    zone.innerHTML = html;
+}
+
+
+// ===============================
+// ✅ VÉRIFIER LA RÉPONSE
+// ===============================
+
+function repondreQuiz(index) {
+
+    let question =
+        quizQuestions[quizIndex];
+
+    let boutons =
+        document.querySelectorAll(".reponseQuiz");
+
+    boutons.forEach(button => {
+        button.disabled = true;
+    });
+
+    let feedback =
+        document.getElementById("feedbackQuiz");
+
+    if (index === question.reponse) {
+
+        quizScore++;
+
+        feedback.innerHTML =
+            "🎉 Bonne réponse !";
+
+    } else {
+
+        feedback.innerHTML =
+            "❌ Mauvaise réponse.<br>" +
+            "La bonne réponse était : " +
+            "<strong>" +
+            question.options[question.reponse] +
+            "</strong>";
+    }
+
+    feedback.innerHTML += `
+        <br><br>
+
+        <button
+            class="action"
+            onclick="questionSuivante()"
+        >
+            ➡️ Question suivante
+        </button>
+    `;
+}
+
+
+// ===============================
+// ➡️ QUESTION SUIVANTE
+// ===============================
+
+function questionSuivante() {
+
+    quizIndex++;
+
+    afficherQuestionQuiz();
+}
+
+
+// ===============================
+// 🏆 FIN DU QUIZ
+// ===============================
+
+function terminerQuiz() {
+
+    let zone =
+        document.getElementById("zoneQuestionQuiz");
+
+    let pourcentage =
+        Math.round(
+            (quizScore / quizQuestions.length) * 100
+        );
+
+    zone.innerHTML = `
+        <div class="card">
+
+            <h3>🏆 Quiz terminé !</h3>
+
+            <p>
+                Tu as obtenu
+                <strong>
+                    ${quizScore} / ${quizQuestions.length}
+                </strong>
+            </p>
+
+            <p>
+                🌸 Score :
+                <strong>${pourcentage}%</strong>
+            </p>
+
+            <button
+                class="action"
+                onclick="commencerQuiz()"
+            >
+                🔄 Recommencer
+            </button>
+
+        </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
